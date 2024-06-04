@@ -1,0 +1,11 @@
+import { lazy } from "react";
+
+export const Auth = lazy(() => import("./Auth"));
+export const Dashboard = lazy(() => import("./Dashboard"));
+export const Tailor = lazy(() => import("./Tailor"));
+export const Product = lazy(() => import("./Product"));
+export const Transfer = lazy(() => import("./Transfer"));
+export const StockCard = lazy(() => import("./StockCard"));
+export const InventoryStock = lazy(() => import("./InventoryStock"));
+export const TailorForm = lazy(() => import("./TailorForm"));
+export const ProductForm = lazy(() => import("./ProductForm"));
