@@ -12,7 +12,6 @@ export function useFetchProducts(filters) {
   return useQuery({
     queryKey: ["products", { filters }],
     queryFn: ({ signal }) => fetchProducts({ signal, filters }),
-    throwOnError: true,
   });
 }
 
