@@ -190,23 +190,28 @@ function Tailor() {
       <div className="card">
         <div
           className="card-body"
-          style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+            overflowX: "scroll",
+          }}
         >
           <div className="input-group">
             <select ref={searchFieldRef} className="form-control">
               <option value="tailor_name">Nama</option>
             </select>
             <input ref={searchTermRef} type="text" className="form-control" />
-            <button className="btn btn-warning" onClick={handleSearchTerm}>
-              Search
-            </button>
-            <button
-              className="btn btn-primary"
-              onClick={() => navigate("/tailors/new")}
-            >
-              Add new
-            </button>
           </div>
+          <button className="btn btn-warning" onClick={handleSearchTerm}>
+            Search
+          </button>
+          <button
+            className="btn btn-primary"
+            onClick={() => navigate("/tailors/new")}
+          >
+            Add new
+          </button>
           {isLoading && (
             <div className="alert alert-warning" role="alert">
               Fetching...

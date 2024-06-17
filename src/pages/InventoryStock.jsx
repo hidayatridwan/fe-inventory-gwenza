@@ -12,7 +12,10 @@ function InventoryStock() {
     <>
       <h1>Persediaan</h1>
       <div className="card">
-        <div className="card-body" style={{ overflowX: "scroll" }}>
+        <div
+          className="card-body d-flex flex-column gap-3"
+          style={{ overflowX: "scroll" }}
+        >
           {isLoading && (
             <div className="alert alert-warning" role="alert">
               Fetching...
@@ -32,16 +35,21 @@ function InventoryStock() {
               <option value="Good">Good</option>
               <option value="Bad">Bad</option>
             </select>
-            <DownloadTableExcel
-              filename="Persediaan"
-              sheet="Report Persediaan"
-              currentTableRef={reportRef.current}
-            >
-              <button type="button" className="btn btn-warning">
-                Download
-              </button>
-            </DownloadTableExcel>
           </div>
+          <DownloadTableExcel
+            filename="Persediaan"
+            sheet="Report Persediaan"
+            currentTableRef={reportRef.current}
+            style={{ width: "100%" }}
+          >
+            <button
+              type="button"
+              className="btn btn-warning"
+              style={{ width: "100%" }}
+            >
+              Download
+            </button>
+          </DownloadTableExcel>
           <table ref={reportRef} className="table table-striped">
             <thead>
               <tr>

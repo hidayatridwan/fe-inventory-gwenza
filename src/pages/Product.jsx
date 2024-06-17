@@ -185,23 +185,26 @@ function Product() {
     <>
       <h1>Produk</h1>
       <div className="card">
-        <div className="card-body d-flex flex-column gap-3">
+        <div
+          className="card-body d-flex flex-column gap-3"
+          style={{ overflowX: "scroll" }}
+        >
           <div className="input-group">
             <select ref={searchFieldRef} className="form-control">
               <option value="product_code">Kode Produk</option>
               <option value="product_name">Nama Produk</option>
             </select>
             <input ref={searchTermRef} type="text" className="form-control" />
-            <button className="btn btn-warning" onClick={handleSearchTerm}>
-              Search
-            </button>
-            <button
-              className="btn btn-primary"
-              onClick={() => navigate("/products/new")}
-            >
-              Add new
-            </button>
           </div>
+          <button className="btn btn-warning" onClick={handleSearchTerm}>
+            Search
+          </button>
+          <button
+            className="btn btn-primary"
+            onClick={() => navigate("/products/new")}
+          >
+            Add new
+          </button>
           {isLoading && (
             <div className="alert alert-warning" role="alert">
               Fetching...

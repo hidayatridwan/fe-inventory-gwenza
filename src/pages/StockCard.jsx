@@ -97,16 +97,20 @@ function StockCard() {
             className="form-control"
             onKeyDown={handleKeyDown}
           />
-          <DownloadTableExcel
-            filename={`Kartu Stok-${productCode}`}
-            sheet="Report Kartu Stok"
-            currentTableRef={reportRef.current}
-          >
-            <button type="button" className="btn btn-warning">
-              Download
-            </button>
-          </DownloadTableExcel>
         </div>
+        <DownloadTableExcel
+          filename={`Kartu Stok-${productCode}`}
+          sheet="Report Kartu Stok"
+          currentTableRef={reportRef.current}
+        >
+          <button
+            type="button"
+            className="btn btn-warning"
+            style={{ width: "100%" }}
+          >
+            Download
+          </button>
+        </DownloadTableExcel>
 
         {isLoading && (
           <div className="alert alert-warning" role="alert">
