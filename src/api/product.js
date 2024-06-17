@@ -46,6 +46,7 @@ export async function fetchProducts({ signal, filters }) {
       },
     })
     .catch((error) => {
+      console.log(error);
       throw error.response.data;
     });
 
