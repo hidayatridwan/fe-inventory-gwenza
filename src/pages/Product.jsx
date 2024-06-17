@@ -17,6 +17,8 @@ function Product() {
     error: deleteError,
   } = useDeleteProduct();
 
+  console.log(data);
+
   const handleEdit = (productId) => navigate(`/products/${productId}`);
 
   const handleDelete = (productId) => {
