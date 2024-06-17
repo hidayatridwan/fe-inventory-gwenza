@@ -8,10 +8,10 @@ import {
 } from "../api/product";
 import { queryClient } from "../api/auth";
 
-export function useFetchProducts() {
+export function useFetchProducts(filters) {
   return useQuery({
-    queryKey: ["products"],
-    queryFn: ({ signal }) => fetchProducts({ signal }),
+    queryKey: ["products", { filters }],
+    queryFn: ({ signal }) => fetchProducts({ signal, filters }),
   });
 }
 

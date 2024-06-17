@@ -8,10 +8,10 @@ import {
 } from "../api/tailor";
 import { queryClient } from "../api/auth";
 
-export function useFetchTailors() {
+export function useFetchTailors(filters) {
   return useQuery({
-    queryKey: ["tailors"],
-    queryFn: ({ signal }) => fetchTailors({ signal }),
+    queryKey: ["tailors", { filters }],
+    queryFn: ({ signal }) => fetchTailors({ signal, filters }),
   });
 }
 

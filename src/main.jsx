@@ -1,6 +1,7 @@
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
+import "./bootstrap.min.css";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { checkAlreadyAuth, checkNotAuth, queryClient } from "./api/auth";
@@ -16,13 +17,40 @@ import {
   Tailor,
   TailorForm,
   Transfer,
+  RenderPDF,
 } from "./pages/pages";
+import styled from "styled-components";
+
+const Backdrop = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+`;
+
+function Loading() {
+  return (
+    <Backdrop>
+      <div className="d-flex justify-content-center">
+        <output className="spinner-border">
+          <span className="visually-hidden">Loading...</span>
+        </output>
+      </div>
+    </Backdrop>
+  );
+}
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <Suspense fallback="Loading...">
+      <Suspense fallback={<Loading />}>
         <Auth />
       </Suspense>
     ),
@@ -35,7 +63,7 @@ const router = createBrowserRouter([
       {
         path: "dashboard",
         element: (
-          <Suspense fallback="Loading...">
+          <Suspense fallback={<Loading />}>
             <Dashboard />
           </Suspense>
         ),
@@ -43,7 +71,7 @@ const router = createBrowserRouter([
       {
         path: "tailors",
         element: (
-          <Suspense fallback="Loading...">
+          <Suspense fallback={<Loading />}>
             <Tailor />
           </Suspense>
         ),
@@ -51,7 +79,7 @@ const router = createBrowserRouter([
       {
         path: "tailors/new",
         element: (
-          <Suspense fallback="Loading...">
+          <Suspense fallback={<Loading />}>
             <TailorForm />
           </Suspense>
         ),
@@ -59,7 +87,7 @@ const router = createBrowserRouter([
       {
         path: "tailors/:tailorId",
         element: (
-          <Suspense fallback="Loading...">
+          <Suspense fallback={<Loading />}>
             <TailorForm />
           </Suspense>
         ),
@@ -67,7 +95,7 @@ const router = createBrowserRouter([
       {
         path: "products",
         element: (
-          <Suspense fallback="Loading...">
+          <Suspense fallback={<Loading />}>
             <Product />
           </Suspense>
         ),
@@ -75,7 +103,7 @@ const router = createBrowserRouter([
       {
         path: "products/new",
         element: (
-          <Suspense fallback="Loading...">
+          <Suspense fallback={<Loading />}>
             <ProductForm />
           </Suspense>
         ),
@@ -83,7 +111,7 @@ const router = createBrowserRouter([
       {
         path: "products/:productId",
         element: (
-          <Suspense fallback="Loading...">
+          <Suspense fallback={<Loading />}>
             <ProductForm />
           </Suspense>
         ),
@@ -91,7 +119,7 @@ const router = createBrowserRouter([
       {
         path: "transfer/:type",
         element: (
-          <Suspense fallback="Loading...">
+          <Suspense fallback={<Loading />}>
             <Transfer />
           </Suspense>
         ),
@@ -99,7 +127,7 @@ const router = createBrowserRouter([
       {
         path: "inventory-stock",
         element: (
-          <Suspense fallback="Loading...">
+          <Suspense fallback={<Loading />}>
             <InventoryStock />
           </Suspense>
         ),
@@ -107,7 +135,7 @@ const router = createBrowserRouter([
       {
         path: "stock-card",
         element: (
-          <Suspense fallback="Loading...">
+          <Suspense fallback={<Loading />}>
             <StockCard />
           </Suspense>
         ),
@@ -118,12 +146,18 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/pdf/:qty/:qrCode/:productCode",
+    element: (
+      <Suspense fallback={<Loading />}>
+        <RenderPDF />
+      </Suspense>
+    ),
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
-  </React.StrictMode>
+  <QueryClientProvider client={queryClient}>
+    <RouterProvider router={router} />
+  </QueryClientProvider>
 );

@@ -1,11 +1,12 @@
 import axios from "axios";
 import { getToken } from "./auth";
+import { apiUrl } from "../utils/helper";
 
 export async function createProduct(data) {
   const token = getToken();
 
   await axios
-    .post("http://localhost:3000/products", data, {
+    .post(`${apiUrl}/products`, data, {
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: token,
@@ -19,11 +20,25 @@ export async function createProduct(data) {
     });
 }
 
-export async function fetchProducts({ signal }) {
+export async function fetchProducts({ signal, filters }) {
   const token = getToken();
+  const params = new URLSearchParams();
+
+  if (filters.page) {
+    params.append("page", filters.page);
+  }
+  if (filters.size) {
+    params.append("size", filters.size);
+  }
+  if (filters.product_code) {
+    params.append("product_code", filters.product_code);
+  }
+  if (filters.product_name) {
+    params.append("product_name", filters.product_name);
+  }
 
   const response = await axios
-    .get("http://localhost:3000/products", {
+    .get(`${apiUrl}/products?${params}`, {
       signal,
       headers: {
         "Content-Type": "application/json",
@@ -41,7 +56,7 @@ export async function getProduct({ signal, productId }) {
   const token = getToken();
 
   const response = await axios
-    .get(`http://localhost:3000/products/${productId}`, {
+    .get(`${apiUrl}/products/${productId}`, {
       signal,
       headers: {
         "Content-Type": "application/json",
@@ -60,7 +75,7 @@ export async function updateProduct(data) {
   const product_id = data.get("product_id");
 
   await axios
-    .put(`http://localhost:3000/products/${product_id}`, data, {
+    .put(`${apiUrl}/products/${product_id}`, data, {
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: token,
@@ -78,7 +93,7 @@ export async function deleteProduct({ productId }) {
   const token = getToken();
 
   const response = await axios
-    .delete(`http://localhost:3000/products/${productId}`, {
+    .delete(`${apiUrl}/products/${productId}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: token,

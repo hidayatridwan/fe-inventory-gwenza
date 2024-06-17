@@ -9,3 +9,4 @@ export const StockCard = lazy(() => import("./StockCard"));
 export const InventoryStock = lazy(() => import("./InventoryStock"));
 export const TailorForm = lazy(() => import("./TailorForm"));
 export const ProductForm = lazy(() => import("./ProductForm"));
+export const RenderPDF = lazy(() => import("./RenderPDF"));

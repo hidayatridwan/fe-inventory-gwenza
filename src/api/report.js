@@ -2,11 +2,15 @@ import axios from "axios";
 import { getToken } from "./auth";
 import { apiUrl } from "../utils/helper";
 
-export async function infoProduct({ signal, productCode }) {
+export async function stockCard({ signal, category, productCode }) {
   const token = getToken();
 
+  const params = new URLSearchParams();
+  params.append("category", category);
+  params.append("product_code", productCode);
+
   const response = await axios
-    .get(`${apiUrl}/transfers/${productCode}`, {
+    .get(`${apiUrl}/reports/stock-card?${params}`, {
       signal,
       headers: {
         "Content-Type": "application/json",
@@ -20,20 +24,23 @@ export async function infoProduct({ signal, productCode }) {
   return response.data;
 }
 
-export async function createTransfer(data) {
+export async function inventoryStock({ signal, category }) {
   const token = getToken();
 
-  await axios
-    .post(`${apiUrl}/transfers`, data, {
+  const params = new URLSearchParams();
+  params.append("category", category);
+
+  const response = await axios
+    .get(`${apiUrl}/reports/inventory-stock?${params}`, {
+      signal,
       headers: {
         "Content-Type": "application/json",
         Authorization: token,
       },
     })
-    .then((response) => {
-      return response.data;
-    })
     .catch((error) => {
       throw error.response.data;
     });
+
+  return response.data;
 }
