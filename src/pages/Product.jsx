@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useFetchTailors, useDeleteTailor } from "../hooks/tailor";
+import { useFetchProducts, useDeleteProduct } from "../hooks/product";
 import { useRef, useState } from "react";
 
 function Product() {
@@ -9,21 +9,21 @@ function Product() {
   const searchSizeRef = useRef();
   const [filters, setFilters] = useState({ page: 1, size: 10 });
   const [activeDropdown, setActiveDropdown] = useState(null);
-  const { data, isLoading, isError, error } = useFetchTailors(filters);
+  const { data, isLoading, isError, error } = useFetchProducts(filters);
   const {
     mutate: deleteMutate,
     isLoading: isDeleting,
     isError: isDeleteError,
     error: deleteError,
-  } = useDeleteTailor();
+  } = useDeleteProduct();
 
-  const handleEdit = (tailorId) => {
-    navigate(`/tailors/${tailorId}`);
+  const handleEdit = (productId) => {
+    navigate(`/products/${productId}`);
   };
 
-  const handleDelete = (tailorId) => {
-    if (window.confirm("Are you sure you want to delete this tailor?")) {
-      deleteMutate({ tailorId });
+  const handleDelete = (productId) => {
+    if (window.confirm("Are you sure you want to delete this product?")) {
+      deleteMutate({ productId });
     }
   };
 
@@ -50,8 +50,8 @@ function Product() {
     });
   };
 
-  const toggleDropdown = (tailorId) => {
-    setActiveDropdown((prev) => (prev === tailorId ? null : tailorId));
+  const toggleDropdown = (productId) => {
+    setActiveDropdown((prev) => (prev === productId ? null : productId));
   };
 
   const renderTable = () => (
@@ -66,34 +66,34 @@ function Product() {
         </tr>
       </thead>
       <tbody>
-        {data.data.map((tailor, index) => (
-          <tr key={tailor.tailor_id}>
+        {data.data.map((product, index) => (
+          <tr key={product.product_id}>
             <td>{index + 1}</td>
-            <td>{tailor.tailor_name}</td>
-            <td>{tailor.phone_number}</td>
-            <td>{tailor.address}</td>
+            <td>{product.product_name}</td>
+            <td>{product.product_code}</td>
+            <td>{product.cost_price}</td>
             <td className="text-center">
               <div className="dropdown">
                 <button
                   type="button"
-                  onClick={() => toggleDropdown(tailor.tailor_id)}
+                  onClick={() => toggleDropdown(product.product_id)}
                   className={`btn btn-sm btn-secondary dropdown-toggle ${
-                    activeDropdown === tailor.tailor_id ? "show" : ""
+                    activeDropdown === product.product_id ? "show" : ""
                   }`}
                   data-bs-toggle="dropdown"
-                  aria-expanded={activeDropdown === tailor.tailor_id}
+                  aria-expanded={activeDropdown === product.product_id}
                 >
                   Action
                 </button>
                 <ul
                   className={`dropdown-menu ${
-                    activeDropdown === tailor.tailor_id ? "show" : ""
+                    activeDropdown === product.product_id ? "show" : ""
                   }`}
                 >
                   <li>
                     <button
                       className="dropdown-item"
-                      onClick={() => handleEdit(tailor.tailor_id)}
+                      onClick={() => handleEdit(product.product_id)}
                     >
                       Edit
                     </button>
@@ -101,7 +101,7 @@ function Product() {
                   <li>
                     <button
                       className="dropdown-item"
-                      onClick={() => handleDelete(tailor.tailor_id)}
+                      onClick={() => handleDelete(product.product_id)}
                     >
                       Delete
                     </button>
@@ -201,7 +201,7 @@ function Product() {
         >
           <div className="input-group">
             <select ref={searchFieldRef} className="form-control">
-              <option value="tailor_name">Nama</option>
+              <option value="product_name">Nama</option>
             </select>
             <input
               ref={searchTermRef}
@@ -212,7 +212,7 @@ function Product() {
           </div>
           <button
             className="btn btn-primary"
-            onClick={() => navigate("/tailors/new")}
+            onClick={() => navigate("/products/new")}
           >
             Add new
           </button>
