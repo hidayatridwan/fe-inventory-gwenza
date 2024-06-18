@@ -9,7 +9,7 @@ function Product() {
   const searchSizeRef = useRef();
   const [filters, setFilters] = useState({ page: 1, size: 10 });
   const [activeDropdown, setActiveDropdown] = useState(null);
-  const { data, isLoading, isError, error } = useFetchProducts(filters);
+  const { data, isLoading, isError, error } = useFetchProducts({});
   const {
     mutate: deleteMutate,
     isLoading: isDeleting,
@@ -25,20 +25,13 @@ function Product() {
     }
   };
 
-  const handlePrint = (qrCode, productCode) => {
-    const quantityPrint = window.prompt(
-      "Enter the quantity you want to print."
-    );
-    if (quantityPrint != null) {
-      window.open(`/pdf/${quantityPrint}/${qrCode}/${productCode}`, "_blank");
+  const handleSearchTerm = (event) => {
+    if (event.key === "Enter" || event.keyCode === 13) {
+      setFilters((prev) => ({
+        ...prev,
+        [searchFieldRef.current.value]: searchTermRef.current.value,
+      }));
     }
-  };
-
-  const handleSearchTerm = () => {
-    setFilters((prev) => ({
-      ...prev,
-      [searchFieldRef.current.value]: searchTermRef.current.value,
-    }));
   };
 
   const handleSearchSize = () => {
@@ -109,16 +102,6 @@ function Product() {
                       onClick={() => handleDelete(product.product_id)}
                     >
                       Delete
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      className="dropdown-item"
-                      onClick={() =>
-                        handlePrint(product.qr_code, product.product_code)
-                      }
-                    >
-                      Print
                     </button>
                   </li>
                 </ul>
@@ -194,11 +177,13 @@ function Product() {
               <option value="product_code">Kode Produk</option>
               <option value="product_name">Nama Produk</option>
             </select>
-            <input ref={searchTermRef} type="text" className="form-control" />
+            <input
+              ref={searchTermRef}
+              type="text"
+              className="form-control"
+              onKeyDown={handleSearchTerm}
+            />
           </div>
-          <button className="btn btn-warning" onClick={handleSearchTerm}>
-            Search
-          </button>
           <button
             className="btn btn-primary"
             onClick={() => navigate("/products/new")}

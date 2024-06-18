@@ -27,11 +27,13 @@ function Tailor() {
     }
   };
 
-  const handleSearchTerm = () => {
-    setFilters((prev) => ({
-      ...prev,
-      [searchFieldRef.current.value]: searchTermRef.current.value,
-    }));
+  const handleSearchTerm = (event) => {
+    if (event.key === "Enter" || event.keyCode === 13) {
+      setFilters((prev) => ({
+        ...prev,
+        [searchFieldRef.current.value]: searchTermRef.current.value,
+      }));
+    }
   };
 
   const handleSearchSize = () => {
@@ -201,11 +203,13 @@ function Tailor() {
             <select ref={searchFieldRef} className="form-control">
               <option value="tailor_name">Nama</option>
             </select>
-            <input ref={searchTermRef} type="text" className="form-control" />
+            <input
+              ref={searchTermRef}
+              type="text"
+              className="form-control"
+              onKeyDown={handleSearchTerm}
+            />
           </div>
-          <button className="btn btn-warning" onClick={handleSearchTerm}>
-            Search
-          </button>
           <button
             className="btn btn-primary"
             onClick={() => navigate("/tailors/new")}

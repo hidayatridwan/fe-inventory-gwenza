@@ -38,7 +38,7 @@ function Transfer() {
   const {
     mutate,
     isSuccess,
-    isLoading: isSaving,
+    isPending,
     isError: isErrorSave,
     error: errorSave,
     reset,
@@ -94,7 +94,11 @@ function Transfer() {
         onKeyDown={handleKeyDown}
       />
 
-      {isLoading && <span className="badge text-bg-light">Fetching...</span>}
+      {isLoading && (
+        <div className="alert alert-warning" role="alert">
+          Fetching...
+        </div>
+      )}
 
       {isError && (
         <div className="alert alert-danger" role="alert">
@@ -227,10 +231,10 @@ function Transfer() {
                 <div className="d-grid">
                   <button
                     type="submit"
-                    disabled={isSaving}
+                    disabled={isPending}
                     className="btn btn-primary"
                   >
-                    {isSaving ? "Saving..." : "Save"}
+                    {isPending ? "Saving..." : "Save"}
                   </button>
                 </div>
               </div>
