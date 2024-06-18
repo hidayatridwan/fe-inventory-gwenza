@@ -17,13 +17,20 @@ function Product() {
     error: deleteError,
   } = useDeleteProduct();
 
-  const handleEdit = (productId) => {
-    navigate(`/products/${productId}`);
-  };
+  const handleEdit = (productId) => navigate(`/products/${productId}`);
 
   const handleDelete = (productId) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
       deleteMutate({ productId });
+    }
+  };
+
+  const handlePrint = (qrCode, productCode) => {
+    const quantityPrint = window.prompt(
+      "Enter the quantity you want to print."
+    );
+    if (quantityPrint != null) {
+      window.open(`/pdf/${quantityPrint}/${qrCode}/${productCode}`, "_blank");
     }
   };
 
@@ -55,23 +62,23 @@ function Product() {
   };
 
   const renderTable = () => (
-    <table className="table table-striped">
+    <table className="table table-striped table-responsive">
       <thead>
         <tr>
-          <th>No</th>
-          <th>Nama</th>
-          <th>No HP</th>
-          <th>Alamat</th>
-          <th className="text-center">Action</th>
+          <th>Kode Produk</th>
+          <th>Nama Produk</th>
+          <th>HPP</th>
+          <th>Harga Jual</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
-        {data.data.map((product, index) => (
+        {data.data.map((product) => (
           <tr key={product.product_id}>
-            <td>{index + 1}</td>
-            <td>{product.product_name}</td>
             <td>{product.product_code}</td>
+            <td>{product.product_name}</td>
             <td>{product.cost_price}</td>
+            <td>{product.selling_price}</td>
             <td className="text-center">
               <div className="dropdown">
                 <button
@@ -106,6 +113,16 @@ function Product() {
                       Delete
                     </button>
                   </li>
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      onClick={() =>
+                        handlePrint(product.qr_code, product.product_code)
+                      }
+                    >
+                      Print
+                    </button>
+                  </li>
                 </ul>
               </div>
             </td>
@@ -116,21 +133,8 @@ function Product() {
   );
 
   const renderPagination = () => (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "start",
-      }}
-    >
-      <ul
-        style={{
-          display: "flex",
-          alignItems: "center",
-          listStyle: "none",
-          gap: "0.5rem",
-        }}
-      >
+    <div className="d-flex justify-content-between align-items-start">
+      <ul className="d-flex align-items-center list-unstyled gap-2">
         <li>Page</li>
         <li>
           <select
@@ -149,14 +153,7 @@ function Product() {
           </select>
         </li>
       </ul>
-      <ul
-        style={{
-          display: "flex",
-          alignItems: "center",
-          listStyle: "none",
-          gap: "0.5rem",
-        }}
-      >
+      <ul className="d-flex align-items-center list-unstyled gap-2">
         <li>{`${Math.min(
           filters.page * filters.size - filters.size + 1,
           data.paging.total_items
@@ -188,20 +185,16 @@ function Product() {
 
   return (
     <>
-      <h1>Pengrajin</h1>
+      <h1>Produk</h1>
       <div className="card">
         <div
-          className="card-body"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "1rem",
-            overflowX: "scroll",
-          }}
+          className="card-body d-flex flex-column gap-3"
+          style={{ overflowX: "scroll" }}
         >
           <div className="input-group">
             <select ref={searchFieldRef} className="form-control">
-              <option value="product_name">Nama</option>
+              <option value="product_code">Kode Produk</option>
+              <option value="product_name">Nama Produk</option>
             </select>
             <input
               ref={searchTermRef}
