@@ -44,3 +44,21 @@ export async function inventoryStock({ signal, category }) {
 
   return response.data;
 }
+
+export async function dashboard({ signal }) {
+  const token = getToken();
+
+  const response = await axios
+    .get(`${apiUrl}/reports/dashboard`, {
+      signal,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    })
+    .catch((error) => {
+      throw error.response.data;
+    });
+
+  return response.data;
+}

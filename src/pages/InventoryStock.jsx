@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { useInventoryStock } from "../hooks/report";
 import { DownloadTableExcel } from "react-export-table-to-excel";
+import { formattedNumber } from "../utils/helper";
 
 function InventoryStock() {
   const reportRef = useRef();
@@ -69,12 +70,12 @@ function InventoryStock() {
                   <tr key={stock.product_id}>
                     <td>{stock.product_code}</td>
                     <td>{stock.product_name}</td>
-                    <td>{stock.qty_in}</td>
-                    <td>{stock.qty_out}</td>
-                    <td>{stock.balance}</td>
-                    <td>{stock.cost_price}</td>
-                    <td>{stock.selling_price}</td>
-                    <td>{stock.margin}</td>
+                    <td>{formattedNumber(stock.qty_in)}</td>
+                    <td>{formattedNumber(stock.qty_out)}</td>
+                    <td>{formattedNumber(stock.balance)}</td>
+                    <td>{formattedNumber(stock.cost_price)}</td>
+                    <td>{formattedNumber(stock.selling_price)}</td>
+                    <td>{formattedNumber(stock.margin)}</td>
                   </tr>
                 ))}
               </tbody>

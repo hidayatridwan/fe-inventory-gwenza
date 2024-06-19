@@ -53,7 +53,7 @@ export default function TailorForm() {
               <>
                 <div className="mb-3">
                   <label htmlFor="tailor_name" className="form-label">
-                    Tailor Name
+                    Nama
                   </label>
                   <input
                     type="text"
@@ -65,7 +65,7 @@ export default function TailorForm() {
                 </div>
                 <div className="mb-3">
                   <label htmlFor="phone_number" className="form-label">
-                    Phone Number
+                    No HP
                   </label>
                   <input
                     type="text"
@@ -77,7 +77,7 @@ export default function TailorForm() {
                 </div>
                 <div className="mb-3">
                   <label htmlFor="address" className="form-label">
-                    Address
+                    Alamat
                   </label>
                   <textarea
                     id="address"

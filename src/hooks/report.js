@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { inventoryStock, stockCard } from "../api/report";
+import { dashboard, inventoryStock, stockCard } from "../api/report";
 
 export function useStockCard(category, productCode) {
   return useQuery({
@@ -13,5 +13,12 @@ export function useInventoryStock(category) {
   return useQuery({
     queryKey: ["report", category],
     queryFn: ({ signal }) => inventoryStock({ signal, category }),
+  });
+}
+
+export function useDashboard() {
+  return useQuery({
+    queryKey: ["report"],
+    queryFn: ({ signal }) => dashboard({ signal }),
   });
 }

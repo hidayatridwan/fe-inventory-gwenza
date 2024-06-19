@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { useInfoProduct, useTransferMutation } from "../hooks/transfer";
 import styled from "styled-components";
-import { apiUrl } from "../utils/helper";
+import { apiUrl, formattedNumber } from "../utils/helper";
 
 const Container = styled.div`
   display: flex;
@@ -157,7 +157,7 @@ function Transfer() {
                   <p className="col-sm-4 col-form-label">HPP</p>
                   <div className="col-sm-8">
                     <p className="form-control-plaintext fw-bold">
-                      {data?.data?.cost_price}
+                      {formattedNumber(data?.data?.cost_price)}
                     </p>
                   </div>
                 </div>
@@ -165,7 +165,7 @@ function Transfer() {
                   <p className="col-sm-4 col-form-label">Harga Jual</p>
                   <div className="col-sm-8">
                     <p className="form-control-plaintext fw-bold">
-                      {data?.data?.selling_price}
+                      {formattedNumber(data?.data?.selling_price)}
                     </p>
                   </div>
                 </div>
@@ -173,7 +173,7 @@ function Transfer() {
                   <p className="col-sm-4 col-form-label">Stok</p>
                   <div className="col-sm-8">
                     <p className="form-control-plaintext fw-bold">
-                      {data?.data?.stock}
+                      {formattedNumber(data?.data?.stock)}
                     </p>
                   </div>
                 </div>

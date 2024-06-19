@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useStockCard } from "../hooks/report";
 import { DownloadTableExcel } from "react-export-table-to-excel";
-import { formattedDate } from "../utils/helper";
+import { formattedDate, formattedNumber } from "../utils/helper";
 
 function StockCard() {
   const categoryRef = useRef();
@@ -66,9 +66,9 @@ function StockCard() {
               <tr key={stock.transfer_id}>
                 <td>{formattedDate(stock.transfer_date)}</td>
                 <td>{stock.remark}</td>
-                <td>{stock.qty_in}</td>
-                <td>{stock.qty_out}</td>
-                <td>{balance}</td>
+                <td>{formattedNumber(stock.qty_in)}</td>
+                <td>{formattedNumber(stock.qty_out)}</td>
+                <td>{formattedNumber(balance)}</td>
               </tr>
             );
           })}
@@ -142,19 +142,19 @@ function StockCard() {
                       <th>Nama Produk</th>
                       <th>{data.data.info.product_name}</th>
                       <th>Total HPP</th>
-                      <th>{total.costPrice}</th>
+                      <th>{formattedNumber(total.costPrice)}</th>
                     </tr>
                     <tr>
                       <th>HPP</th>
-                      <th>{data.data.info.cost_price}</th>
+                      <th>{formattedNumber(data.data.info.cost_price)}</th>
                       <th>Total Harga Jual</th>
-                      <th>{total.sellingPrice}</th>
+                      <th>{formattedNumber(total.sellingPrice)}</th>
                     </tr>
                     <tr>
                       <th>Harga Jual</th>
-                      <th>{data.data.info.selling_price}</th>
+                      <th>{formattedNumber(data.data.info.selling_price)}</th>
                       <th>Margin</th>
-                      <th>{total.margin}</th>
+                      <th>{formattedNumber(total.margin)}</th>
                     </tr>
                   </thead>
                 </table>
