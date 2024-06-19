@@ -37,8 +37,10 @@ export async function fetchProducts({ signal, filters }) {
     params.append("product_name", filters.product_name);
   }
 
+  const query = params;
+
   const response = await axios
-    .get(`${apiUrl}/products?${params}`, {
+    .get(`${apiUrl}/products?${query}`, {
       signal,
       headers: {
         "Content-Type": "application/json",

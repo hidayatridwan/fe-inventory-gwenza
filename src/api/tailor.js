@@ -34,8 +34,10 @@ export async function fetchTailors({ signal, filters }) {
     params.append("tailor_name", filters.tailor_name);
   }
 
+  const query = params;
+
   const response = await axios
-    .get(`${apiUrl}/tailors?${params}`, {
+    .get(`${apiUrl}/tailors?${query}`, {
       signal,
       headers: {
         "Content-Type": "application/json",
