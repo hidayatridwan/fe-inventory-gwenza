@@ -130,55 +130,58 @@ function Transfer() {
               </div>
               <div className="product-content">
                 <div className="mb-1 row">
-                  <p className="col-sm-4 col-form-label">Kode Produk</p>
+                  <p className="col-sm-4 col-form-label fw-bold">Kode Produk</p>
                   <div className="col-sm-8">
-                    <p className="form-control-plaintext fw-bold">
+                    <p className="form-control-plaintext">
                       {data?.data?.product_code}
                     </p>
                   </div>
                 </div>
                 <div className="mb-1 row">
-                  <p className="col-sm-4 col-form-label">Nama Produk</p>
+                  <p className="col-sm-4 col-form-label fw-bold">Nama Produk</p>
                   <div className="col-sm-8">
-                    <p className="form-control-plaintext fw-bold">
+                    <p className="form-control-plaintext">
                       {data?.data?.product_name}
                     </p>
                   </div>
                 </div>
                 <div className="mb-1 row">
-                  <p className="col-sm-4 col-form-label">Pengrajin</p>
+                  <p className="col-sm-4 col-form-label fw-bold">Pengrajin</p>
                   <div className="col-sm-8">
-                    <p className="form-control-plaintext fw-bold">
+                    <p className="form-control-plaintext">
                       {data?.data?.tailor.tailor_name}
                     </p>
                   </div>
                 </div>
                 <div className="mb-1 row">
-                  <p className="col-sm-4 col-form-label">HPP</p>
+                  <p className="col-sm-4 col-form-label fw-bold">HPP</p>
                   <div className="col-sm-8">
-                    <p className="form-control-plaintext fw-bold">
+                    <p className="form-control-plaintext">
                       {formattedNumber(data?.data?.cost_price)}
                     </p>
                   </div>
                 </div>
                 <div className="mb-1 row">
-                  <p className="col-sm-4 col-form-label">Harga Jual</p>
+                  <p className="col-sm-4 col-form-label fw-bold">Harga Jual</p>
                   <div className="col-sm-8">
-                    <p className="form-control-plaintext fw-bold">
+                    <p className="form-control-plaintext">
                       {formattedNumber(data?.data?.selling_price)}
                     </p>
                   </div>
                 </div>
                 <div className="mb-1 row">
-                  <p className="col-sm-4 col-form-label">Stok</p>
+                  <p className="col-sm-4 col-form-label fw-bold">Stok</p>
                   <div className="col-sm-8">
-                    <p className="form-control-plaintext fw-bold">
+                    <p className="form-control-plaintext">
                       {formattedNumber(data?.data?.stock)}
                     </p>
                   </div>
                 </div>
                 <div className="mb-1 row">
-                  <label htmlFor="category" className="col-sm-4 col-form-label">
+                  <label
+                    htmlFor="category"
+                    className="col-sm-4 col-form-label fw-bold"
+                  >
                     Kategori
                   </label>
                   <div className="col-sm-8">
@@ -193,7 +196,10 @@ function Transfer() {
                   </div>
                 </div>
                 <div className="mb-1 row">
-                  <label htmlFor="quantity" className="col-sm-4 col-form-label">
+                  <label
+                    htmlFor="quantity"
+                    className="col-sm-4 col-form-label fw-bold"
+                  >
                     Qty
                   </label>
                   <div className="col-sm-8">
@@ -206,7 +212,10 @@ function Transfer() {
                   </div>
                 </div>
                 <div className="mb-1 row">
-                  <label htmlFor="remark" className="col-sm-4 col-form-label">
+                  <label
+                    htmlFor="remark"
+                    className="col-sm-4 col-form-label fw-bold"
+                  >
                     Keterangan
                   </label>
                   <div className="col-sm-8">

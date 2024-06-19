@@ -39,6 +39,29 @@ export default function ProductForm() {
     );
   }
 
+  function renderTailorDropdown() {
+    if (isLoadingTailors) {
+      return <p>Fetching tailors...</p>;
+    } else if (isErrorTailors) {
+      return <p>{errorTailors.message}</p>;
+    } else {
+      return (
+        <select
+          id="tailor_id"
+          name="tailor_id"
+          className="form-control"
+          defaultValue={productData?.data?.tailor_id || ""}
+        >
+          {tailorsData?.data.map((tailor) => (
+            <option key={tailor.tailor_id} value={tailor.tailor_id}>
+              {tailor.tailor_name}
+            </option>
+          ))}
+        </select>
+      );
+    }
+  }
+
   return (
     <>
       <h1>Input Produk</h1>
@@ -102,24 +125,7 @@ export default function ProductForm() {
                   <label htmlFor="tailor_id" className="form-label">
                     Pengrajin
                   </label>
-                  {isLoadingTailors ? (
-                    <p>Fetching tailors...</p>
-                  ) : isErrorTailors ? (
-                    <p>{errorTailors.message}</p>
-                  ) : (
-                    <select
-                      id="tailor_id"
-                      name="tailor_id"
-                      className="form-control"
-                      defaultValue={productData?.data?.tailor_id || ""}
-                    >
-                      {tailorsData?.data.map((tailor) => (
-                        <option key={tailor.tailor_id} value={tailor.tailor_id}>
-                          {tailor.tailor_name}
-                        </option>
-                      ))}
-                    </select>
-                  )}
+                  {renderTailorDropdown()}
                 </div>
                 <div className="mb-3">
                   <label htmlFor="image" className="form-label">

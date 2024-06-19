@@ -140,21 +140,21 @@ function StockCard() {
                   <thead>
                     <tr>
                       <th>Nama Produk</th>
-                      <th>{data.data.info.product_name}</th>
+                      <td>{data.data.info.product_name}</td>
                       <th>Total HPP</th>
-                      <th>{formattedNumber(total.costPrice)}</th>
+                      <td>{formattedNumber(total.costPrice)}</td>
                     </tr>
                     <tr>
                       <th>HPP</th>
-                      <th>{formattedNumber(data.data.info.cost_price)}</th>
+                      <td>{formattedNumber(data.data.info.cost_price)}</td>
                       <th>Total Harga Jual</th>
-                      <th>{formattedNumber(total.sellingPrice)}</th>
+                      <td>{formattedNumber(total.sellingPrice)}</td>
                     </tr>
                     <tr>
                       <th>Harga Jual</th>
-                      <th>{formattedNumber(data.data.info.selling_price)}</th>
+                      <td>{formattedNumber(data.data.info.selling_price)}</td>
                       <th>Margin</th>
-                      <th>{formattedNumber(total.margin)}</th>
+                      <td>{formattedNumber(total.margin)}</td>
                     </tr>
                   </thead>
                 </table>
