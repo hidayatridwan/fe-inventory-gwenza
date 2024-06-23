@@ -41,6 +41,9 @@ function Menu() {
         <StyledNavLink to="/tailors">Pengrajin</StyledNavLink>
       </li>
       <li>
+        <StyledNavLink to="/models">Model</StyledNavLink>
+      </li>
+      <li>
         <StyledNavLink to="/products">Produk</StyledNavLink>
       </li>
       <li>

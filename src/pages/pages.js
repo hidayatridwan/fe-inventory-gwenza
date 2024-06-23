@@ -10,3 +10,5 @@ export const InventoryStock = lazy(() => import("./InventoryStock"));
 export const TailorForm = lazy(() => import("./TailorForm"));
 export const ProductForm = lazy(() => import("./ProductForm"));
 export const RenderPDF = lazy(() => import("./RenderPDF"));
+export const Model = lazy(() => import("./Model"));
+export const ModelForm = lazy(() => import("./ModelForm"));

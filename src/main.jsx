@@ -18,6 +18,8 @@ import {
   TailorForm,
   Transfer,
   RenderPDF,
+  Model,
+  ModelForm,
 } from "./pages/pages";
 import styled from "styled-components";
 
@@ -89,6 +91,30 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loading />}>
             <TailorForm />
+          </Suspense>
+        ),
+      },
+      {
+        path: "models",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <Model />
+          </Suspense>
+        ),
+      },
+      {
+        path: "models/new",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <ModelForm />
+          </Suspense>
+        ),
+      },
+      {
+        path: "models/:modelId",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <ModelForm />
           </Suspense>
         ),
       },
