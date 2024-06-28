@@ -31,9 +31,12 @@ const Container = styled.div`
 
 function Transfer() {
   const { type } = useParams();
-  const productCodeRef = useRef();
   const formRef = useRef();
+  const productCodeRef = useRef();
+  const categoryOptionsRef = useRef();
+  const modelOptionsRef = useRef();
   const [productCode, setProductCode] = useState("");
+  const [selectModel, setSelectModel] = useState({});
   const { data, isLoading, isError, error } = useInfoProduct(productCode);
   const {
     mutate,
@@ -60,6 +63,27 @@ function Transfer() {
     mutate(jsonData);
   }
 
+  function handleChangeModel() {
+    const category = categoryOptionsRef.current.value;
+    const modelId = modelOptionsRef.current.value;
+    const modelData = data.data?.model.find(
+      (model) => model.model_id.toString() === modelId
+    );
+
+    if (modelData) {
+      const { inventory, ...newModelData } = modelData;
+      const inventoryData = inventory.find(
+        (stock) => stock.category === category
+      );
+      const stock = inventoryData ? inventoryData.quantity : 0;
+
+      setSelectModel({
+        ...newModelData,
+        stock,
+      });
+    }
+  }
+
   const resetStates = () => {
     setProductCode("");
     if (formRef.current) {
@@ -76,6 +100,23 @@ function Transfer() {
   useEffect(() => {
     resetStates();
   }, [type]);
+
+  useEffect(() => {
+    if (data?.data?.model?.length > 0) {
+      const [firstModel] = data.data.model;
+      const { inventory, ...initialModel } = firstModel;
+      const category = categoryOptionsRef.current.value;
+      const inventoryData = inventory.find(
+        (stock) => stock.category === category
+      );
+      const stock = inventoryData ? inventoryData.quantity : 0;
+
+      setSelectModel({
+        ...initialModel,
+        stock,
+      });
+    }
+  }, [data]);
 
   return (
     <form
@@ -123,8 +164,8 @@ function Transfer() {
             <Container>
               <div style={{ flex: 1 }}>
                 <img
-                  src={`${apiUrl}/products/${data?.data?.image}`}
-                  alt={data?.data?.product_name}
+                  src={`${apiUrl}/products/${selectModel?.image}`}
+                  alt={selectModel?.model_name}
                   className="product-img"
                 />
               </div>
@@ -149,7 +190,7 @@ function Transfer() {
                   <p className="col-sm-4 col-form-label fw-bold">Pengrajin</p>
                   <div className="col-sm-8">
                     <p className="form-control-plaintext">
-                      {data?.data?.tailor.tailor_name}
+                      {data?.data?.tailor_name}
                     </p>
                   </div>
                 </div>
@@ -170,14 +211,6 @@ function Transfer() {
                   </div>
                 </div>
                 <div className="mb-1 row">
-                  <p className="col-sm-4 col-form-label fw-bold">Stok</p>
-                  <div className="col-sm-8">
-                    <p className="form-control-plaintext">
-                      {formattedNumber(data?.data?.stock)}
-                    </p>
-                  </div>
-                </div>
-                <div className="mb-1 row">
                   <label
                     htmlFor="category"
                     className="col-sm-4 col-form-label fw-bold"
@@ -189,10 +222,46 @@ function Transfer() {
                       name="category"
                       id="category"
                       className="form-control"
+                      onChange={handleChangeModel}
+                      ref={categoryOptionsRef}
                     >
                       <option value="Good">Good</option>
                       <option value="Bad">Bad</option>
+                      <option value="Retur">Retur</option>
                     </select>
+                  </div>
+                </div>
+                <div className="mb-1 row">
+                  <label
+                    htmlFor="model"
+                    className="col-sm-4 col-form-label fw-bold"
+                  >
+                    Model
+                  </label>
+                  <div className="col-sm-8">
+                    {data?.data?.model && (
+                      <select
+                        name="model"
+                        id="model"
+                        className="form-control"
+                        onChange={handleChangeModel}
+                        ref={modelOptionsRef}
+                      >
+                        {data?.data?.model.map((model) => (
+                          <option key={model.model_id} value={model.model_id}>
+                            {model.model_name}
+                          </option>
+                        ))}
+                      </select>
+                    )}
+                  </div>
+                </div>
+                <div className="mb-1 row">
+                  <p className="col-sm-4 col-form-label fw-bold">Stok</p>
+                  <div className="col-sm-8">
+                    <p className="form-control-plaintext">
+                      {formattedNumber(selectModel?.stock)}
+                    </p>
                   </div>
                 </div>
                 <div className="mb-1 row">

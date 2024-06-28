@@ -1,24 +1,24 @@
 import { useQuery } from "@tanstack/react-query";
 import { dashboard, inventoryStock, stockCard } from "../api/report";
 
-export function useStockCard(category, productCode) {
+export function useStockCard(productCode) {
   return useQuery({
-    queryKey: ["report", category, productCode],
-    queryFn: ({ signal }) => stockCard({ signal, category, productCode }),
+    queryKey: ["report", productCode],
+    queryFn: ({ signal }) => stockCard({ signal, productCode }),
     enabled: !!productCode,
   });
 }
 
-export function useInventoryStock(category) {
+export function useInventoryStock(filters) {
   return useQuery({
-    queryKey: ["report", category],
-    queryFn: ({ signal }) => inventoryStock({ signal, category }),
+    queryKey: ["report", { filters }],
+    queryFn: ({ signal }) => inventoryStock({ signal, filters }),
   });
 }
 
-export function useDashboard() {
+export function useDashboard(filters) {
   return useQuery({
-    queryKey: ["report"],
-    queryFn: ({ signal }) => dashboard({ signal }),
+    queryKey: ["report", { filters }],
+    queryFn: ({ signal }) => dashboard({ signal, filters }),
   });
 }

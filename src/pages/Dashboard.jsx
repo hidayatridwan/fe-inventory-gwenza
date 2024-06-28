@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { useDashboard } from "../hooks/report";
 import { formattedNumber } from "../utils/helper";
+import { useRef, useState } from "react";
+import { format } from "date-fns";
 
 const Container = styled.div`
   display: flex;
@@ -20,11 +22,49 @@ const Container = styled.div`
 `;
 
 function Dashboard() {
-  const { data, isLoading, isError, error } = useDashboard();
+  const categoryRef = useRef();
+  const datePeriodeRef = useRef();
+  const [filters, setFilters] = useState({
+    category: "All",
+    date_periode: format(new Date(), "yyyy-MM-dd"),
+  });
+  const { data, isLoading, isError, error } = useDashboard(filters);
+
+  function handleChange() {
+    setFilters({
+      category: categoryRef.current.value,
+      date_periode: datePeriodeRef.current.value,
+    });
+  }
 
   return (
     <>
       <h1>Dashboard</h1>
+      <div className="input-group mb-3">
+        <select
+          name="category"
+          id="category"
+          ref={categoryRef}
+          onChange={handleChange}
+          defaultValue={filters.category}
+          className="form-control"
+        >
+          <option value="All">All</option>
+          <option value="Good">Good</option>
+          <option value="Bad">Bad</option>
+          <option value="Retur">Retur</option>
+        </select>
+        <input
+          type="date"
+          name="date_periode"
+          id="date_periode"
+          ref={datePeriodeRef}
+          defaultValue={filters.date_periode}
+          onChange={handleChange}
+          className="form-control"
+        />
+      </div>
+
       {isLoading && (
         <div className="alert alert-warning" role="alert">
           Fetching...
@@ -52,7 +92,7 @@ function Dashboard() {
           <div className="card">
             <div className="card-header">Stok Tersedia</div>
             <div className="card-body">
-              <h3>{formattedNumber(data.data.qty_margin)}</h3>
+              <h3>{formattedNumber(data.data.qty_balance)}</h3>
             </div>
           </div>
           <div className="card">
@@ -70,7 +110,7 @@ function Dashboard() {
           <div className="card">
             <div className="card-header">Margin</div>
             <div className="card-body">
-              <h3>{formattedNumber(data.data.price_margin)}</h3>
+              <h3>{formattedNumber(data.data.balance_price)}</h3>
             </div>
           </div>
         </Container>

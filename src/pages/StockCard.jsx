@@ -1,28 +1,24 @@
 import { useState, useRef, useEffect } from "react";
 import { useStockCard } from "../hooks/report";
 import { DownloadTableExcel } from "react-export-table-to-excel";
-import { formattedDate, formattedNumber } from "../utils/helper";
+import { formattedNumber } from "../utils/helper";
+import { format } from "date-fns";
 
 function StockCard() {
-  const categoryRef = useRef();
   const productCodeRef = useRef();
   const reportRef = useRef();
-  const [category, setCategory] = useState("Good");
   const [productCode, setProductCode] = useState("");
   const [total, setTotal] = useState({
     costPrice: 0,
     sellingPrice: 0,
     margin: 0,
   });
-  const { data, isLoading, isError, error } = useStockCard(
-    category,
-    productCode
-  );
+  const { data, isLoading, isError, error } = useStockCard(productCode);
 
   useEffect(() => {
     if (data) {
-      const { stock, info } = data.data;
-      const balance = stock.reduce(
+      const { transfers, info } = data.data;
+      const balance = transfers.reduce(
         (acc, item) => acc + item.qty_in - item.qty_out,
         0
       );
@@ -60,15 +56,48 @@ function StockCard() {
           </tr>
         </thead>
         <tbody>
-          {data.data.stock.map((stock) => {
-            balance += stock.qty_in - stock.qty_out;
+          {data.data.transfers.map((transfer) => {
+            balance += transfer.qty_in - transfer.qty_out;
             return (
-              <tr key={stock.transfer_id}>
-                <td>{formattedDate(stock.transfer_date)}</td>
-                <td>{stock.remark}</td>
-                <td>{formattedNumber(stock.qty_in)}</td>
-                <td>{formattedNumber(stock.qty_out)}</td>
+              <tr key={transfer.transfer_id}>
+                <td>{format(transfer.transfer_date, "yyyy-MM-dd HH:mm")}</td>
+                <td>{`[${transfer.category}][${transfer.model}] ${transfer.remark}`}</td>
+                <td>{formattedNumber(transfer.qty_in)}</td>
+                <td>{formattedNumber(transfer.qty_out)}</td>
                 <td>{formattedNumber(balance)}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    );
+  };
+
+  const renderSummaryTable = () => {
+    return (
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th>Kategori</th>
+            <th>Model</th>
+            <th>Qty</th>
+            <th>HPP</th>
+            <th>Harga Jual</th>
+            <th>Margin</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.data.summary.map((sum) => {
+            const hpp = sum.quantity * data.data.info.cost_price;
+            const hargaJual = sum.quantity * data.data.info.selling_price;
+            return (
+              <tr key={`${sum.category}${sum.model}`}>
+                <td>{sum.category}</td>
+                <td>{sum.model}</td>
+                <td>{formattedNumber(sum.quantity)}</td>
+                <td>{formattedNumber(hpp)}</td>
+                <td>{formattedNumber(hargaJual)}</td>
+                <td>{formattedNumber(hargaJual - hpp)}</td>
               </tr>
             );
           })}
@@ -81,23 +110,13 @@ function StockCard() {
     <>
       <h1>Kartu Stok</h1>
       <form style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-        <div className="input-group">
-          <select
-            ref={categoryRef}
-            className="form-control"
-            onChange={(e) => setCategory(e.target.value)}
-          >
-            <option value="Good">Good</option>
-            <option value="Bad">Bad</option>
-          </select>
-          <input
-            ref={productCodeRef}
-            type="text"
-            placeholder="Product Code or Scan QR Code"
-            className="form-control"
-            onKeyDown={handleKeyDown}
-          />
-        </div>
+        <input
+          ref={productCodeRef}
+          type="text"
+          placeholder="Product Code or Scan QR Code"
+          className="form-control"
+          onKeyDown={handleKeyDown}
+        />
         <DownloadTableExcel
           filename={`Kartu Stok-${productCode}`}
           sheet="Report Kartu Stok"
@@ -159,6 +178,7 @@ function StockCard() {
                   </thead>
                 </table>
                 {renderStockTable()}
+                {renderSummaryTable()}
               </div>
             </div>
           </div>
