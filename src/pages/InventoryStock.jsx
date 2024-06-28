@@ -4,7 +4,7 @@ import { DownloadTableExcel } from "react-export-table-to-excel";
 import { formattedNumber } from "../utils/helper";
 import { format } from "date-fns";
 
-function InventoryStock() {
+const InventoryStock = () => {
   const reportRef = useRef();
   const categoryRef = useRef();
   const datePeriodeRef = useRef();
@@ -14,12 +14,45 @@ function InventoryStock() {
   });
   const { data, isLoading, isError, error } = useInventoryStock(filters);
 
-  function handleChange() {
+  const handleChange = () => {
     setFilters({
       category: categoryRef.current.value,
       date_periode: datePeriodeRef.current.value,
     });
-  }
+  };
+
+  const renderTableBody = () => {
+    if (!Array.isArray(data?.data)) {
+      return (
+        <tbody>
+          <tr>
+            <td colSpan="10" className="text-center">
+              No data available
+            </td>
+          </tr>
+        </tbody>
+      );
+    }
+
+    return (
+      <tbody>
+        {data.data.map((stock) => (
+          <tr key={stock.product_id}>
+            <td>{stock.product_code}</td>
+            <td>{stock.product_name}</td>
+            <td>{stock.category}</td>
+            <td>{stock.model}</td>
+            <td>{formattedNumber(stock.qty_in)}</td>
+            <td>{formattedNumber(stock.qty_out)}</td>
+            <td>{formattedNumber(stock.qty_balance)}</td>
+            <td>{formattedNumber(stock.cost_price)}</td>
+            <td>{formattedNumber(stock.selling_price)}</td>
+            <td>{formattedNumber(stock.balance_price)}</td>
+          </tr>
+        ))}
+      </tbody>
+    );
+  };
 
   return (
     <>
@@ -39,7 +72,6 @@ function InventoryStock() {
               {error.message}
             </div>
           )}
-
           <div className="input-group mb-3">
             <select
               name="category"
@@ -93,29 +125,12 @@ function InventoryStock() {
                 <th>Margin</th>
               </tr>
             </thead>
-            {data && (
-              <tbody>
-                {data.data.map((stock) => (
-                  <tr key={stock.product_id}>
-                    <td>{stock.product_code}</td>
-                    <td>{stock.product_name}</td>
-                    <td>{stock.category}</td>
-                    <td>{stock.model}</td>
-                    <td>{formattedNumber(stock.qty_in)}</td>
-                    <td>{formattedNumber(stock.qty_out)}</td>
-                    <td>{formattedNumber(stock.qty_balance)}</td>
-                    <td>{formattedNumber(stock.cost_price)}</td>
-                    <td>{formattedNumber(stock.selling_price)}</td>
-                    <td>{formattedNumber(stock.balance_price)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            )}
+            {renderTableBody()}
           </table>
         </div>
       </div>
     </>
   );
-}
+};
 
 export default InventoryStock;
