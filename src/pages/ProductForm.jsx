@@ -5,6 +5,7 @@ import { useFetchModels } from "../hooks/model";
 import Select from "react-select";
 import { useEffect, useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
+import { apiUrl } from "../utils/helper";
 
 export default function ProductForm() {
   const { productId } = useParams();
@@ -46,7 +47,7 @@ export default function ProductForm() {
     if (productData) {
       setModelRows(productData.data.models);
     }
-  }, [productData, modelRows]);
+  }, [productData]);
 
   const {
     data: modelsData,
@@ -251,6 +252,13 @@ export default function ProductForm() {
                             type="file"
                             name="image[]"
                             className="form-control"
+                          />
+                        </td>
+                        <td>
+                          <img
+                            src={`${apiUrl}/products/${row?.image}`}
+                            alt={row?.image}
+                            style={{ width: "80px" }}
                           />
                         </td>
                       </tr>

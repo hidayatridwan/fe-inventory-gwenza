@@ -233,7 +233,7 @@ function Transfer() {
                 </div>
                 <div className="mb-1 row">
                   <label
-                    htmlFor="model"
+                    htmlFor="model_id"
                     className="col-sm-4 col-form-label fw-bold"
                   >
                     Model
@@ -241,8 +241,8 @@ function Transfer() {
                   <div className="col-sm-8">
                     {data?.data?.model && (
                       <select
-                        name="model"
-                        id="model"
+                        name="model_id"
+                        id="model_id"
                         className="form-control"
                         onChange={handleChangeModel}
                         ref={modelOptionsRef}
