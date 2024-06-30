@@ -41,7 +41,7 @@ const InventoryStock = () => {
             <td>{stock.product_code}</td>
             <td>{stock.product_name}</td>
             <td>{stock.category}</td>
-            <td>{stock.model}</td>
+            <td>{stock.model_name}</td>
             <td>{formattedNumber(stock.qty_in)}</td>
             <td>{formattedNumber(stock.qty_out)}</td>
             <td>{formattedNumber(stock.qty_balance)}</td>
