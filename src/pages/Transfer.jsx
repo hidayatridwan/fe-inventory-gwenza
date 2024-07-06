@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { useInfoProduct, useTransferMutation } from "../hooks/transfer";
 import styled from "styled-components";
 import { apiUrl, formattedNumber } from "../utils/helper";
+import AsyncSelect from "react-select/async";
+import { useFetchProducts } from "../hooks/product";
 
 const Container = styled.div`
   display: flex;
@@ -32,9 +34,12 @@ const Container = styled.div`
 function Transfer() {
   const { type } = useParams();
   const formRef = useRef();
-  const productCodeRef = useRef();
   const categoryOptionsRef = useRef();
   const modelOptionsRef = useRef();
+  const [filters, setFilters] = useState({ page: 1, size: 10 });
+  const { data: dataProduct, isLoading: isLoadingProduct } =
+    useFetchProducts(filters);
+
   const [productCode, setProductCode] = useState("");
   const [selectModel, setSelectModel] = useState({});
   const { data, isLoading, isError, error } = useInfoProduct(productCode);
@@ -47,12 +52,9 @@ function Transfer() {
     reset,
   } = useTransferMutation();
 
-  function handleKeyDown(event) {
-    if (event.key === "Enter" || event.keyCode === 13) {
-      event.preventDefault();
-      setProductCode(productCodeRef.current.value);
-      reset();
-    }
+  function handleChangeProduct(event) {
+    setProductCode(event.value);
+    reset();
   }
 
   function handleSubmit(e) {
@@ -118,6 +120,20 @@ function Transfer() {
     }
   }, [data]);
 
+  const loadOptionsProduct = (inputValue, callback) => {
+    setFilters((prev) => ({
+      ...prev,
+      product_name: inputValue,
+    }));
+
+    callback(
+      dataProduct?.data.map((product) => ({
+        value: product.product_code,
+        label: product.product_name,
+      }))
+    );
+  };
+
   return (
     <form
       ref={formRef}
@@ -126,13 +142,14 @@ function Transfer() {
     >
       <h1>Stok {type === "out" ? "Keluar" : "Masuk"}</h1>
 
-      <input
-        type="text"
-        id="product_code"
-        placeholder="Product Code or Scan QR Code"
-        className="form-control"
-        ref={productCodeRef}
-        onKeyDown={handleKeyDown}
+      <AsyncSelect
+        cacheOptions={true}
+        defaultOptions={true}
+        isLoading={isLoadingProduct}
+        loadOptions={loadOptionsProduct}
+        onChange={handleChangeProduct}
+        value={productCode}
+        placeholder="Cari produk..."
       />
 
       {isLoading && (

@@ -5,7 +5,7 @@ import { useState } from "react";
 
 const Container = styled.div`
   display: flex;
-  height: 100vh;
+  height: 100%;
   position: relative;
 `;
 
@@ -22,7 +22,7 @@ const Sidebar = styled.div`
     position: fixed;
     top: 0;
     left: 0;
-    height: 100vh;
+    height: 100%;
     width: 250px;
     transform: translateX(-100%);
     z-index: 1001;

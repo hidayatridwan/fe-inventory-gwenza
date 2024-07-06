@@ -155,7 +155,7 @@ export default function ProductForm() {
     <>
       <h1>Input Produk</h1>
       <div className="card">
-        <div className="card-body">
+        <div className="card-body" style={{ overflowX: "scroll" }}>
           <form onSubmit={handleSubmit} className="d-flex flex-column">
             {isSuccess && (
               <div className="alert alert-success" role="alert">
