@@ -149,7 +149,7 @@ function Transfer() {
         loadOptions={loadOptionsProduct}
         onChange={handleChangeProduct}
         value={productCode}
-        placeholder="Cari produk..."
+        placeholder="Cari nama produk..."
       />
 
       {isLoading && (

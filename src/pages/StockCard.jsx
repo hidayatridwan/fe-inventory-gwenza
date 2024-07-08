@@ -3,10 +3,14 @@ import { useStockCard } from "../hooks/report";
 import { DownloadTableExcel } from "react-export-table-to-excel";
 import { formattedNumber } from "../utils/helper";
 import { format } from "date-fns";
+import AsyncSelect from "react-select/async";
+import { useFetchProducts } from "../hooks/product";
 
 function StockCard() {
-  const productCodeRef = useRef();
   const reportRef = useRef();
+  const [filters, setFilters] = useState({ page: 1, size: 10 });
+  const { data: dataProduct, isLoading: isLoadingProduct } =
+    useFetchProducts(filters);
   const [productCode, setProductCode] = useState("");
   const [total, setTotal] = useState({
     costPrice: 0,
@@ -34,11 +38,22 @@ function StockCard() {
     }
   }, [data]);
 
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      setProductCode(productCodeRef.current.value);
-    }
+  function handleChangeProduct(event) {
+    setProductCode(event.value);
+  }
+
+  const loadOptionsProduct = (inputValue, callback) => {
+    setFilters((prev) => ({
+      ...prev,
+      product_name: inputValue,
+    }));
+
+    callback(
+      dataProduct?.data.map((product) => ({
+        value: product.product_code,
+        label: product.product_name,
+      }))
+    );
   };
 
   const renderStockTable = () => {
@@ -110,12 +125,14 @@ function StockCard() {
     <>
       <h1>Kartu Stok</h1>
       <form style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-        <input
-          ref={productCodeRef}
-          type="text"
-          placeholder="Product Code or Scan QR Code"
-          className="form-control"
-          onKeyDown={handleKeyDown}
+        <AsyncSelect
+          cacheOptions={true}
+          defaultOptions={true}
+          isLoading={isLoadingProduct}
+          loadOptions={loadOptionsProduct}
+          onChange={handleChangeProduct}
+          value={productCode}
+          placeholder="Cari nama produk..."
         />
         <DownloadTableExcel
           filename={`Kartu Stok-${productCode}`}
