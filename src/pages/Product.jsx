@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useFetchProducts, useDeleteProduct } from "../hooks/product";
 import { useRef, useState } from "react";
+import { products } from "../api/report";
 
 function Product() {
   const navigate = useNavigate();
@@ -183,6 +184,10 @@ function Product() {
     </div>
   );
 
+  function handleDownloadProduct() {
+    products();
+  }
+
   return (
     <>
       <h1>Produk</h1>
@@ -208,6 +213,14 @@ function Product() {
             onClick={() => navigate("/products/new")}
           >
             Add new
+          </button>
+          <button
+            type="button"
+            className="btn btn-warning"
+            style={{ width: "100%" }}
+            onClick={() => handleDownloadProduct()}
+          >
+            Download
           </button>
           {isLoading && (
             <div className="alert alert-warning" role="alert">

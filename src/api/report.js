@@ -80,3 +80,29 @@ export async function dashboard({ signal, filters }) {
 
   return response.data;
 }
+
+export async function products() {
+  const token = getToken();
+  const url = `${apiUrl}/reports/products`;
+
+  try {
+    const response = await axios.get(url, {
+      responseType: "blob",
+      headers: {
+        Authorization: token,
+      },
+    });
+
+    const blob = new Blob([response.data]);
+    const downloadUrl = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = downloadUrl;
+    a.download = "products.xlsx";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(downloadUrl);
+  } catch (error) {
+    console.error("Download failed:", error);
+  }
+}
