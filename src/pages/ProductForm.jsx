@@ -5,7 +5,7 @@ import { useFetchModels } from "../hooks/model";
 import Select from "react-select";
 import { useEffect, useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
-import { apiUrl } from "../utils/helper";
+import { apiImage } from "../utils/helper";
 
 export default function ProductForm() {
   const { productId } = useParams();
@@ -256,7 +256,7 @@ export default function ProductForm() {
                         </td>
                         <td>
                           <img
-                            src={`${apiUrl}/products/${row?.image}`}
+                            src={`${apiImage}/products/${row?.image}`}
                             alt={row?.image}
                             style={{ width: "80px" }}
                           />

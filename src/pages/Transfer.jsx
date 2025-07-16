@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { useInfoProduct, useTransferMutation } from "../hooks/transfer";
 import styled from "styled-components";
-import { apiUrl, formattedNumber } from "../utils/helper";
+import { apiImage, formattedNumber } from "../utils/helper";
 import AsyncSelect from "react-select/async";
 import { useFetchProducts } from "../hooks/product";
 
@@ -181,7 +181,7 @@ function Transfer() {
             <Container>
               <div style={{ flex: 1 }}>
                 <img
-                  src={`${apiUrl}/products/${selectModel?.image}`}
+                  src={`${apiImage}/products/${selectModel?.image}`}
                   alt={selectModel?.model_name}
                   className="product-img"
                 />
